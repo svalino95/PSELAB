@@ -42,8 +42,8 @@
 
 .labelTop {
   top: 1rem;
-  background: rgba(0, 200, 255, 0.15);
-  border: 1px solid rgba(0, 200, 255, 0.4);
+  background: rgba(204, 0, 255, 0.15);
+  border: 1px solid rgba(204, 0, 255, 0.4);
   color: var(--color-cyan);
 }
 
@@ -70,7 +70,7 @@
 .handleLine {
   height: 2px;
   background: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 0 12px rgba(0, 200, 255, 0.6), 0 0 4px #fff;
+  box-shadow: 0 0 12px rgba(204, 0, 255, 0.6), 0 0 4px #fff;
   position: relative;
 }
 
@@ -88,7 +88,7 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0,200,255,0.4);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(204,0,255,0.4);
   color: var(--text-dark);
   font-size: 10px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -97,7 +97,7 @@
 .handle:hover .handleKnob,
 .handle:active .handleKnob {
   transform: translate(-50%, -50%) scale(1.15);
-  box-shadow: 0 4px 20px rgba(0, 200, 255, 0.5), 0 0 0 2px var(--color-cyan);
+  box-shadow: 0 4px 20px rgba(204, 0, 255, 0.5), 0 0 0 2px var(--color-cyan);
 }
 
 /* Small drag hint text */

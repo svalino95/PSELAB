@@ -10,14 +10,14 @@
   --color-dark-mid:    #111111;
   --color-dark-border: rgba(255,255,255,0.08);
 
-  /* Accent section (deep navy) */
-  --color-accent-bg:   #001830;
-  --color-accent-mid:  #002244;
+  /* Accent section (deep dark purple) */
+  --color-accent-bg:   #0D0014;
+  --color-accent-mid:  #1A0030;
 
   /* Brand accents */
-  --color-cyan:        #00C8FF;
-  --color-cyan-dim:    rgba(0,200,255,0.12);
-  --color-cyan-glow:   rgba(0,200,255,0.35);
+  --color-cyan:        #CC00FF;
+  --color-cyan-dim:    rgba(204,0,255,0.12);
+  --color-cyan-glow:   rgba(204,0,255,0.35);
   --color-green:       #00E676;
   --color-orange:      #FF6B00;
 
@@ -112,7 +112,7 @@ h1,h2,h3,h4,h5,h6 {
   border: none;
 }
 .btn-filled-cyan:hover {
-  background: #33D6FF;
+  background: #DD44FF;
   transform: translateY(-1px);
   box-shadow: 0 8px 24px var(--color-cyan-glow);
 }

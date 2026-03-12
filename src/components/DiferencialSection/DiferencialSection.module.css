@@ -11,8 +11,8 @@
   content: '';
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(0,200,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,200,255,0.04) 1px, transparent 1px);
+    linear-gradient(rgba(204,0,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(204,0,255,0.04) 1px, transparent 1px);
   background-size: 48px 48px;
   pointer-events: none;
 }
@@ -66,12 +66,12 @@
 }
 .item:nth-child(even)  { border-right: none; }
 .item:nth-last-child(-n+2) { border-bottom: none; }
-.item:hover { background: rgba(0,200,255,0.04); }
+.item:hover { background: rgba(204,0,255,0.04); }
 
 .itemIcon {
   flex-shrink: 0;
   width: 44px; height: 44px;
-  border: 1px solid rgba(0,200,255,0.25);
+  border: 1px solid rgba(204,0,255,0.25);
   border-radius: var(--radius);
   display: flex; align-items: center; justify-content: center;
   color: var(--color-cyan);

@@ -23,7 +23,7 @@ const Defs = ({ id }) => (
       <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(0,180,0,0.12)" strokeWidth="0.5"/>
     </pattern>
     <pattern id={`pcb-grid-on-${id}`} width="20" height="20" patternUnits="userSpaceOnUse">
-      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(0,200,255,0.06)" strokeWidth="0.5"/>
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(204,0,255,0.06)" strokeWidth="0.5"/>
     </pattern>
   </defs>
 )
@@ -123,13 +123,13 @@ export function DriverLED_ON() {
       {/* Dark board */}
       <rect width="400" height="300" fill="#060808"/>
       <rect width="400" height="300" fill="url(#pcb-grid-on-d1on)"/>
-      <rect x="8" y="8" width="384" height="284" fill="none" stroke="rgba(0,200,255,0.2)" strokeWidth="1"/>
+      <rect x="8" y="8" width="384" height="284" fill="none" stroke="rgba(204,0,255,0.2)" strokeWidth="1"/>
       {/* Glowing mounting holes */}
       {[[20,20],[380,20],[20,280],[380,280]].map(([x,y],i)=>(
-        <circle key={i} cx={x} cy={y} r="5" fill="none" stroke="rgba(0,200,255,0.5)" strokeWidth="1.5" filter="url(#glow-soft-d1on)"/>
+        <circle key={i} cx={x} cy={y} r="5" fill="none" stroke="rgba(204,0,255,0.5)" strokeWidth="1.5" filter="url(#glow-soft-d1on)"/>
       ))}
       {/* Glowing main power traces */}
-      <g filter="url(#glow-d1on)" stroke="#00C8FF" strokeWidth="2" fill="none" opacity="0.8">
+      <g filter="url(#glow-d1on)" stroke="#CC00FF" strokeWidth="2" fill="none" opacity="0.8">
         <line x1="40" y1="240" x2="360" y2="240"/>
         <line x1="40" y1="255" x2="360" y2="255" stroke="rgba(255,100,0,0.8)"/>
         <line x1="40" y1="60" x2="360" y2="60"/>
@@ -138,13 +138,13 @@ export function DriverLED_ON() {
         <path d="M 60 240 L 60 200 L 340 200 L 340 240"/>
       </g>
       {/* MCU - glowing */}
-      <rect x="155" y="120" width="90" height="60" rx="3" fill="#0A0A1A" stroke="rgba(0,200,255,0.6)" strokeWidth="1.5" filter="url(#glow-soft-d1on)"/>
-      {[0,1,2,3,4,5].map(i=>(<line key={i} x1={155} y1={130+i*8} x2={148} y2={130+i*8} stroke="rgba(0,200,255,0.5)" strokeWidth="1"/>))}
-      {[0,1,2,3,4,5].map(i=>(<line key={i} x1={245} y1={130+i*8} x2={252} y2={130+i*8} stroke="rgba(0,200,255,0.5)" strokeWidth="1"/>))}
-      {[0,1,2,3].map(i=>(<line key={i} x1={165+i*16} y1={120} x2={165+i*16} y2={113} stroke="rgba(0,200,255,0.5)" strokeWidth="1"/>))}
-      {[0,1,2,3].map(i=>(<line key={i} x1={165+i*16} y1={180} x2={165+i*16} y2={187} stroke="rgba(0,200,255,0.5)" strokeWidth="1"/>))}
-      <text x="174" y="148" fill="#00C8FF" fontSize="8" fontFamily="monospace" fontWeight="bold" filter="url(#glow-soft-d1on)">STM32</text>
-      <text x="171" y="158" fill="rgba(0,200,255,0.7)" fontSize="6" fontFamily="monospace">F405RGT</text>
+      <rect x="155" y="120" width="90" height="60" rx="3" fill="#0A0A1A" stroke="rgba(204,0,255,0.6)" strokeWidth="1.5" filter="url(#glow-soft-d1on)"/>
+      {[0,1,2,3,4,5].map(i=>(<line key={i} x1={155} y1={130+i*8} x2={148} y2={130+i*8} stroke="rgba(204,0,255,0.5)" strokeWidth="1"/>))}
+      {[0,1,2,3,4,5].map(i=>(<line key={i} x1={245} y1={130+i*8} x2={252} y2={130+i*8} stroke="rgba(204,0,255,0.5)" strokeWidth="1"/>))}
+      {[0,1,2,3].map(i=>(<line key={i} x1={165+i*16} y1={120} x2={165+i*16} y2={113} stroke="rgba(204,0,255,0.5)" strokeWidth="1"/>))}
+      {[0,1,2,3].map(i=>(<line key={i} x1={165+i*16} y1={180} x2={165+i*16} y2={187} stroke="rgba(204,0,255,0.5)" strokeWidth="1"/>))}
+      <text x="174" y="148" fill="#CC00FF" fontSize="8" fontFamily="monospace" fontWeight="bold" filter="url(#glow-soft-d1on)">STM32</text>
+      <text x="171" y="158" fill="rgba(204,0,255,0.7)" fontSize="6" fontFamily="monospace">F405RGT</text>
 
       {/* Power connector — red LED indicator */}
       <rect x="30" y="125" width="30" height="50" rx="3" fill="#0A0A0A" stroke="rgba(255,80,80,0.6)" strokeWidth="1"/>
@@ -182,10 +182,10 @@ export function DriverLED_ON() {
 
       {/* Capacitors — charged glow */}
       {[80,160,240,320].map((x,i)=>(
-        <ellipse key={i} cx={x} cy="150" rx="6" ry="8" fill="rgba(0,50,100,0.5)" stroke="rgba(0,200,255,0.6)" strokeWidth="1" filter="url(#glow-soft-d1on)"/>
+        <ellipse key={i} cx={x} cy="150" rx="6" ry="8" fill="rgba(50,0,100,0.5)" stroke="rgba(204,0,255,0.6)" strokeWidth="1" filter="url(#glow-soft-d1on)"/>
       ))}
 
-      <text x="170" y="275" fill="rgba(0,200,255,0.5)" fontSize="7" fontFamily="monospace" fontWeight="bold">PS·ELAB — DRIVER LED 12CH v2.1</text>
+      <text x="170" y="275" fill="rgba(204,0,255,0.5)" fontSize="7" fontFamily="monospace" fontWeight="bold">PS·ELAB — DRIVER LED 12CH v2.1</text>
     </svg>
   )
 }
@@ -247,24 +247,24 @@ export function RelayBoard_ON() {
       <Defs id="r2on"/>
       <rect width="400" height="300" fill="#060808"/>
       <rect width="400" height="300" fill="url(#pcb-grid-on-r2on)"/>
-      <rect x="8" y="8" width="384" height="284" fill="none" stroke="rgba(0,200,255,0.2)" strokeWidth="1"/>
+      <rect x="8" y="8" width="384" height="284" fill="none" stroke="rgba(204,0,255,0.2)" strokeWidth="1"/>
       {/* MAX485 glowing */}
-      <rect x="160" y="130" width="80" height="40" rx="2" fill="#0A0A1A" stroke="rgba(0,200,255,0.5)" strokeWidth="1.2" filter="url(#glow-soft-r2on)"/>
-      {[0,1,2,3].map(i=>(<line key={i} x1={160} y1={138+i*8} x2={153} y2={138+i*8} stroke="rgba(0,200,255,0.5)" strokeWidth="1"/>))}
-      {[0,1,2,3].map(i=>(<line key={i} x1={240} y1={138+i*8} x2={247} y2={138+i*8} stroke="rgba(0,200,255,0.5)" strokeWidth="1"/>))}
-      <text x="168" y="148" fill="#00C8FF" fontSize="7" fontFamily="monospace" fontWeight="bold" filter="url(#glow-soft-r2on)">MAX485</text>
+      <rect x="160" y="130" width="80" height="40" rx="2" fill="#0A0A1A" stroke="rgba(204,0,255,0.5)" strokeWidth="1.2" filter="url(#glow-soft-r2on)"/>
+      {[0,1,2,3].map(i=>(<line key={i} x1={160} y1={138+i*8} x2={153} y2={138+i*8} stroke="rgba(204,0,255,0.5)" strokeWidth="1"/>))}
+      {[0,1,2,3].map(i=>(<line key={i} x1={240} y1={138+i*8} x2={247} y2={138+i*8} stroke="rgba(204,0,255,0.5)" strokeWidth="1"/>))}
+      <text x="168" y="148" fill="#CC00FF" fontSize="7" fontFamily="monospace" fontWeight="bold" filter="url(#glow-soft-r2on)">MAX485</text>
       {/* RS485 terminal glowing */}
-      <rect x="340" y="120" width="40" height="60" rx="2" fill="#0A0A0A" stroke="rgba(0,200,255,0.4)" strokeWidth="1"/>
+      <rect x="340" y="120" width="40" height="60" rx="2" fill="#0A0A0A" stroke="rgba(204,0,255,0.4)" strokeWidth="1"/>
       {/* 8 Relay modules — activated */}
       {Array.from({length:4}).map((_,i)=>([
         {y:40, ridx:i+1, active: i%2===0},
         {y:195, ridx:i+5, active: i%2!==0}
       ]).map(({y, ridx, active})=>(
         <g key={`${i}-${y}`}>
-          <rect x={34+i*84} y={y} width="60" height="60" rx="3" fill={active?"rgba(255,150,0,0.08)":"#0A0A0A"} stroke={active?"rgba(255,150,0,0.6)":"rgba(0,200,255,0.2)"} strokeWidth="1.2" filter={active?"url(#glow-soft-r2on)":"none"}/>
-          <circle cx={64+i*84} cy={y+26} r="8" fill={active?"rgba(255,120,0,0.3)":"#0A0A0A"} stroke={active?"rgba(255,150,0,0.8)":"rgba(0,200,255,0.3)"} strokeWidth="1.2" filter={active?"url(#glow-d1on)":"none"}/>
+          <rect x={34+i*84} y={y} width="60" height="60" rx="3" fill={active?"rgba(255,150,0,0.08)":"#0A0A0A"} stroke={active?"rgba(255,150,0,0.6)":"rgba(204,0,255,0.2)"} strokeWidth="1.2" filter={active?"url(#glow-soft-r2on)":"none"}/>
+          <circle cx={64+i*84} cy={y+26} r="8" fill={active?"rgba(255,120,0,0.3)":"#0A0A0A"} stroke={active?"rgba(255,150,0,0.8)":"rgba(204,0,255,0.3)"} strokeWidth="1.2" filter={active?"url(#glow-d1on)":"none"}/>
           {/* Coil indication */}
-          <text x={52+i*84} y={y+67} fill={active?"rgba(255,150,0,0.7)":"rgba(0,200,255,0.4)"} fontSize="6" fontFamily="monospace">RLY{ridx}</text>
+          <text x={52+i*84} y={y+67} fill={active?"rgba(255,150,0,0.7)":"rgba(204,0,255,0.4)"} fontSize="6" fontFamily="monospace">RLY{ridx}</text>
         </g>
       )))}
       {/* Status LEDs — some green, some amber */}
@@ -274,7 +274,7 @@ export function RelayBoard_ON() {
           filter="url(#glow-strong-r2on)"
           opacity="0.9"/>
       ))}
-      <text x="145" y="285" fill="rgba(0,200,255,0.5)" fontSize="7" fontFamily="monospace" fontWeight="bold">PS·ELAB — RELAY 8CH RS485 v1.3</text>
+      <text x="145" y="285" fill="rgba(204,0,255,0.5)" fontSize="7" fontFamily="monospace" fontWeight="bold">PS·ELAB — RELAY 8CH RS485 v1.3</text>
     </svg>
   )
 }
@@ -347,28 +347,28 @@ export function ESP32Shield_ON() {
       <Defs id="e3on"/>
       <rect width="400" height="300" fill="#060808"/>
       <rect width="400" height="300" fill="url(#pcb-grid-on-e3on)"/>
-      <rect x="8" y="8" width="384" height="284" fill="none" stroke="rgba(0,200,255,0.2)" strokeWidth="1"/>
+      <rect x="8" y="8" width="384" height="284" fill="none" stroke="rgba(204,0,255,0.2)" strokeWidth="1"/>
       {/* ESP32 module glowing */}
-      <rect x="130" y="90" width="140" height="80" rx="4" fill="#0A120A" stroke="rgba(0,200,255,0.5)" strokeWidth="1.5" filter="url(#glow-soft-e3on)"/>
+      <rect x="130" y="90" width="140" height="80" rx="4" fill="#0A120A" stroke="rgba(204,0,255,0.5)" strokeWidth="1.5" filter="url(#glow-soft-e3on)"/>
       {/* WiFi symbol glow */}
-      <path d="M 258 98 L 275 98 L 275 82 L 265 82 L 265 90 L 255 90 L 255 84 L 268 84" stroke="rgba(0,200,255,0.7)" strokeWidth="1.5" fill="none" filter="url(#glow-soft-e3on)"/>
-      <text x="163" y="128" fill="#00C8FF" fontSize="9" fontFamily="monospace" fontWeight="bold" filter="url(#glow-soft-e3on)">ESP32</text>
-      <text x="162" y="140" fill="rgba(0,200,255,0.6)" fontSize="6" fontFamily="monospace">WROOM-32U</text>
+      <path d="M 258 98 L 275 98 L 275 82 L 265 82 L 265 90 L 255 90 L 255 84 L 268 84" stroke="rgba(204,0,255,0.7)" strokeWidth="1.5" fill="none" filter="url(#glow-soft-e3on)"/>
+      <text x="163" y="128" fill="#CC00FF" fontSize="9" fontFamily="monospace" fontWeight="bold" filter="url(#glow-soft-e3on)">ESP32</text>
+      <text x="162" y="140" fill="rgba(204,0,255,0.6)" fontSize="6" fontFamily="monospace">WROOM-32U</text>
       {/* Headers */}
       {Array.from({length:10}).map((_,i)=>(
         <g key={i}>
-          <rect x="42" y={55+i*20} width="10" height="10" rx="1" fill="rgba(0,50,100,0.5)" stroke="rgba(0,200,255,0.4)" strokeWidth="0.8"/>
-          <rect x="350" y={55+i*20} width="10" height="10" rx="1" fill="rgba(0,50,100,0.5)" stroke="rgba(0,200,255,0.4)" strokeWidth="0.8"/>
+          <rect x="42" y={55+i*20} width="10" height="10" rx="1" fill="rgba(50,0,100,0.5)" stroke="rgba(204,0,255,0.4)" strokeWidth="0.8"/>
+          <rect x="350" y={55+i*20} width="10" height="10" rx="1" fill="rgba(50,0,100,0.5)" stroke="rgba(204,0,255,0.4)" strokeWidth="0.8"/>
         </g>
       ))}
       {/* USB-C glowing */}
-      <rect x="175" y="35" width="50" height="30" rx="3" fill="#0A0A1A" stroke="rgba(0,200,255,0.5)" strokeWidth="1.2" filter="url(#glow-soft-e3on)"/>
+      <rect x="175" y="35" width="50" height="30" rx="3" fill="#0A0A1A" stroke="rgba(204,0,255,0.5)" strokeWidth="1.2" filter="url(#glow-soft-e3on)"/>
       {/* Power LED RED */}
       <circle cx="340" cy="90" r="5" fill="#FF3333" filter="url(#glow-strong-e3on)" opacity="0.95"/>
       {/* IO LED Blue/green */}
       <circle cx="355" cy="90" r="5" fill="#00FF88" filter="url(#glow-strong-e3on)" opacity="0.95"/>
       {/* Glowing traces */}
-      <g stroke="rgba(0,200,255,0.6)" strokeWidth="1.2" fill="none" filter="url(#glow-soft-e3on)">
+      <g stroke="rgba(204,0,255,0.6)" strokeWidth="1.2" fill="none" filter="url(#glow-soft-e3on)">
         <path d="M 52 60 L 130 60 L 130 90"/>
         <path d="M 360 80 L 270 80 L 270 90"/>
         <line x1="200" y1="35" x2="200" y2="90"/>
@@ -376,16 +376,16 @@ export function ESP32Shield_ON() {
       </g>
       {/* Grove connectors glowing */}
       {[210, 260, 310].map((x,i)=>(
-        <rect key={i} x={x} y="215" width="40" height="30" rx="2" fill="rgba(0,20,50,0.5)" stroke="rgba(0,200,255,0.4)" strokeWidth="1" filter="url(#glow-soft-e3on)"/>
+        <rect key={i} x={x} y="215" width="40" height="30" rx="2" fill="rgba(20,0,50,0.5)" stroke="rgba(204,0,255,0.4)" strokeWidth="1" filter="url(#glow-soft-e3on)"/>
       ))}
       {/* Reset button */}
       <rect x="340" y="200" width="20" height="20" rx="3" fill="#0A0A1A" stroke="rgba(255,80,80,0.5)" strokeWidth="1"/>
       <circle cx="350" cy="210" r="5" fill="rgba(255,60,60,0.3)"/>
       {/* WiFi activity indicator animation via opacity trick */}
-      <circle cx="285" cy="80" r="12" fill="none" stroke="rgba(0,200,255,0.25)" strokeWidth="2"/>
-      <circle cx="285" cy="80" r="7" fill="none" stroke="rgba(0,200,255,0.4)" strokeWidth="2"/>
-      <circle cx="285" cy="80" r="2" fill="rgba(0,200,255,0.9)" filter="url(#glow-strong-e3on)"/>
-      <text x="130" y="285" fill="rgba(0,200,255,0.5)" fontSize="7" fontFamily="monospace" fontWeight="bold">PS·ELAB — ESP32 INDUSTRIAL SHIELD v3.0</text>
+      <circle cx="285" cy="80" r="12" fill="none" stroke="rgba(204,0,255,0.25)" strokeWidth="2"/>
+      <circle cx="285" cy="80" r="7" fill="none" stroke="rgba(204,0,255,0.4)" strokeWidth="2"/>
+      <circle cx="285" cy="80" r="2" fill="rgba(204,0,255,0.9)" filter="url(#glow-strong-e3on)"/>
+      <text x="130" y="285" fill="rgba(204,0,255,0.5)" fontSize="7" fontFamily="monospace" fontWeight="bold">PS·ELAB — ESP32 INDUSTRIAL SHIELD v3.0</text>
     </svg>
   )
 }
