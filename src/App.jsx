@@ -1,6 +1,7 @@
 import Navbar from './components/Navbar/Navbar'
 import Hero from './components/Hero/Hero'
 import Especialidades from './components/Especialidades/Especialidades'
+import Productos from './components/Productos/Productos'
 import DiferencialSection from './components/DiferencialSection/DiferencialSection'
 import Proyectos from './components/Proyectos/Proyectos'
 import Contacto from './components/Contacto/Contacto'
@@ -13,6 +14,7 @@ export default function App() {
       <main>
         <Hero />
         <Especialidades />
+        <Productos />
         <DiferencialSection />
         <Proyectos />
         <Contacto />

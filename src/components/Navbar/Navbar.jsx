@@ -12,6 +12,7 @@ const InstagramIcon = () => (
 const navItems = [
   { label: 'Inicio',         section: 'hero' },
   { label: 'Especialidades', section: 'especialidades' },
+  { label: 'Productos',      section: 'productos' },
   { label: 'Proyectos',      section: 'proyectos' },
   { label: 'Contacto',       section: 'contacto' },
 ]

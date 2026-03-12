@@ -1,0 +1,151 @@
+/* Light section — matches Matrix /products layout */
+.section {
+  background: var(--color-light);
+}
+
+/* ── HEADER ── */
+.header {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 5rem 2rem 3rem;
+  border-bottom: 1px solid var(--color-light-border);
+}
+
+.bigTitle {
+  font-size: clamp(4rem, 14vw, 11rem);
+  font-weight: 700;
+  color: var(--text-dark);
+  text-transform: uppercase;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+}
+
+/* ── PRODUCT ROWS ── */
+.productRow {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 5rem;
+  align-items: center;
+  border-bottom: 1px solid var(--color-light-border);
+}
+
+/* Alternate: image left on even rows */
+.productRow:nth-child(even) .info  { order: 2; }
+.productRow:nth-child(even) .visual { order: 1; }
+
+/* ── INFO ── */
+.info {}
+
+.num {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted-dark);
+  opacity: 0.5;
+  margin-bottom: 0.75rem;
+}
+
+.productName {
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--text-dark);
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.5rem;
+}
+.productName span { color: var(--color-cyan); }
+
+.tagline {
+  font-size: 1rem;
+  color: var(--text-muted-dark);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.desc {
+  font-size: 0.92rem;
+  color: var(--text-muted-dark);
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  max-width: 460px;
+}
+
+/* Specs table */
+.specs {
+  margin-bottom: 2rem;
+  border-top: 1px solid var(--color-light-border);
+}
+
+.specRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--color-light-border);
+  gap: 1rem;
+}
+
+.specKey {
+  font-size: 0.8rem;
+  color: var(--text-muted-dark);
+  opacity: 0.65;
+  letter-spacing: 0.03em;
+  flex-shrink: 0;
+}
+
+.specVal {
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  text-align: right;
+}
+
+/* CTA row */
+.ctaRow {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* ── VISUAL: the comparison slider ── */
+.visual {
+  position: relative;
+}
+
+.sliderWrap {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--color-light-border);
+  box-shadow: 0 12px 48px rgba(0,0,0,0.12);
+}
+
+/* Hint below slider */
+.sliderHint {
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted-dark);
+  opacity: 0.5;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 960px) {
+  .productRow {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .productRow:nth-child(even) .info  { order: 1; }
+  .productRow:nth-child(even) .visual { order: 2; }
+}

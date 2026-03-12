@@ -1,0 +1,118 @@
+.container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  border-radius: var(--radius);
+  user-select: none;
+  -webkit-user-select: none;
+  background: #0a0a0a;
+}
+
+/* Both layers fill the container */
+.layerBottom,
+.layerTop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.layerTop {
+  /* clip-path set inline via style prop */
+  will-change: clip-path;
+  transition: clip-path 0s; /* no transition while dragging */
+}
+
+/* Corner labels */
+.labelTop,
+.labelBottom {
+  position: absolute;
+  left: 1rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-pill);
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.labelTop {
+  top: 1rem;
+  background: rgba(0, 200, 255, 0.15);
+  border: 1px solid rgba(0, 200, 255, 0.4);
+  color: var(--color-cyan);
+}
+
+.labelBottom {
+  bottom: 1rem;
+  background: rgba(0, 230, 118, 0.15);
+  border: 1px solid rgba(0, 230, 118, 0.4);
+  color: var(--color-green);
+}
+
+/* ── THE DRAG HANDLE ── */
+.handle {
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* top set via inline style */
+  transform: translateY(-50%);
+  z-index: 20;
+  cursor: ns-resize;
+  touch-action: none;
+}
+
+/* Horizontal line that spans full width */
+.handleLine {
+  height: 2px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 12px rgba(0, 200, 255, 0.6), 0 0 4px #fff;
+  position: relative;
+}
+
+/* Centered knob on the line */
+.handleKnob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 24px;
+  background: #fff;
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0,200,255,0.4);
+  color: var(--text-dark);
+  font-size: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.handle:hover .handleKnob,
+.handle:active .handleKnob {
+  transform: translate(-50%, -50%) scale(1.15);
+  box-shadow: 0 4px 20px rgba(0, 200, 255, 0.5), 0 0 0 2px var(--color-cyan);
+}
+
+/* Small drag hint text */
+.dragHint {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  pointer-events: none;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
