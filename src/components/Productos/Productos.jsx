@@ -1,5 +1,5 @@
 import { useReveal } from '../../hooks/useReveal'
-import { DriverLEDController, RelayBoardController, ESP32ShieldController } from './PCBInteractive'
+import { SpectrumViewer } from './SpectrumViewer'
 import styles from './Productos.module.css'
 
 const ArrowIcon = () => (
@@ -10,61 +10,60 @@ const ArrowIcon = () => (
 
 const products = [
   {
-    id: 'driver-led',
+    id: 'ps-600',
     num: '01',
-    name: ['Driver', ' LED', ' 12CH'],
+    name: ['PS-600', ' Full', ' Spectrum'],
     nameAccent: 1,
-    tagline: 'Control PWM de 12 canales independientes',
-    desc: 'Controlador PWM de 12 canales con aislación óptica por canal, comunicación RS-485 y protocolo DMX512. Ideal para instalaciones de iluminación profesional, escenarios y arquitectura.',
+    tagline: 'Luminaria LED de espectro completo para cultivo intensivo',
+    desc: 'Luminaria de 600 W con 5 canales de luz independientes: UV, Azul, Blanca, Roja e Infrarroja. Control individual por canal permite personalizar el espectro para cada etapa del cultivo.',
     specs: [
-      { key: 'Canales',       val: '12 × PWM independiente' },
-      { key: 'Protocolo',     val: 'DMX512 / RS-485' },
-      { key: 'Frecuencia',    val: '1 kHz – 20 kHz' },
-      { key: 'Corriente max', val: '3 A por canal' },
-      { key: 'Tensión',       val: '12 V – 48 V DC' },
+      { key: 'Potencia',      val: '600 W (ajustable)' },
+      { key: 'Cobertura',     val: '1.2 × 1.2 m' },
+      { key: 'Canales',       val: 'UV / Azul / Blanca / Roja / IR' },
+      { key: 'Eficiencia',    val: '2.7 μmol/J' },
+      { key: 'Alimentación',  val: '200–240 V AC' },
     ],
-    Controller: DriverLEDController,
-    hint: 'Mové los sliders para activar cada canal',
+    defaultSpectrum: { uv: 20, blue: 70, white: 65, red: 50, ir: 20 },
+    hint: 'Ajustá cada canal para explorar el espectro',
   },
   {
-    id: 'relay-board',
+    id: 'ps-1200',
     num: '02',
-    name: ['Relay', ' Board', ' 8CH'],
+    name: ['PS-1200', ' Bloom', ' Pro'],
     nameAccent: 1,
-    tagline: 'Módulo de relés con control remoto RS-485',
-    desc: 'Placa de 8 relés de estado sólido con aislación galvánica, watchdog de hardware y comunicación RS-485 a 1 Mbps. Diseñada para automatización industrial y domótica de alta confiabilidad.',
+    tagline: 'Alta potencia con espectro optimizado para floración',
+    desc: 'Luminaria de 1200 W diseñada para maximizar la producción en etapa de floración. El espectro rojo-IR refuerza la síntesis de antocianinas y terpenos, con dosis controlada de UV.',
     specs: [
-      { key: 'Canales',       val: '8 × relé SPDT' },
-      { key: 'Protocolo',     val: 'Modbus RTU / RS-485' },
-      { key: 'Corriente max', val: '10 A por canal' },
-      { key: 'Tensión carga', val: 'hasta 250 V AC' },
-      { key: 'Aislación',     val: 'Óptica + galvánica' },
+      { key: 'Potencia',      val: '1200 W (ajustable)' },
+      { key: 'Cobertura',     val: '1.5 × 1.5 m' },
+      { key: 'Canales',       val: 'UV / Azul / Blanca / Roja / IR' },
+      { key: 'Eficiencia',    val: '3.0 μmol/J' },
+      { key: 'Alimentación',  val: '200–240 V AC' },
     ],
-    Controller: RelayBoardController,
-    hint: 'Tocá cada relé para activarlo o desactivarlo',
+    defaultSpectrum: { uv: 15, blue: 30, white: 50, red: 100, ir: 75 },
+    hint: 'Preset "Floración" para ver el espectro óptimo',
   },
   {
-    id: 'esp32-shield',
+    id: 'ps-400-uv',
     num: '03',
-    name: ['ESP32', ' IoT', ' Shield'],
+    name: ['PS-400', ' UV+', ' Pro'],
     nameAccent: 1,
-    tagline: 'Shield de expansión para ESP32 con conectividad total',
-    desc: 'Shield de expansión para módulos ESP32 con entradas analógicas protegidas, salidas a relé, bus CAN, RS-485 y conectores industriales M12. Pensada para equipos IoT embebidos de producción.',
+    tagline: 'Especializada en UV para producción de terpenos y resinas',
+    desc: 'Luminaria de 400 W con énfasis en UV y azul profundo. Formulada para estimular la producción de terpenos, flavonoides y resinas en la última semana de floración.',
     specs: [
-      { key: 'Base',          val: 'ESP32 / ESP32-S3' },
-      { key: 'Conectividad',  val: 'WiFi + BT + CAN + RS-485' },
-      { key: 'Entradas',      val: '4 × AI protegidas 0–10V' },
-      { key: 'Alimentación',  val: '9 V – 36 V DC' },
-      { key: 'Conector',      val: 'Industrial M12 A-code' },
+      { key: 'Potencia',      val: '400 W (ajustable)' },
+      { key: 'Cobertura',     val: '0.8 × 0.8 m' },
+      { key: 'Canales',       val: 'UV / Azul / Blanca / Roja / IR' },
+      { key: 'Eficiencia',    val: '2.5 μmol/J' },
+      { key: 'Alimentación',  val: '200–240 V AC' },
     ],
-    Controller: ESP32ShieldController,
-    hint: 'Activá interfaces y simulá entradas analógicas',
+    defaultSpectrum: { uv: 75, blue: 90, white: 40, red: 20, ir: 10 },
+    hint: 'Preset "Full" para ver el potencial máximo UV',
   },
 ]
 
 function ProductRow({ product }) {
   const { ref, visible } = useReveal()
-  const { Controller } = product
 
   return (
     <div
@@ -107,9 +106,9 @@ function ProductRow({ product }) {
         </div>
       </div>
 
-      {/* VISUAL: interactive controller */}
+      {/* VISUAL: interactive spectrum */}
       <div className={styles.visual}>
-        <Controller />
+        <SpectrumViewer initialValues={product.defaultSpectrum} />
         <p className={styles.sliderHint}>
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
