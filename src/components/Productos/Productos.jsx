@@ -1,10 +1,5 @@
 import { useReveal } from '../../hooks/useReveal'
-import ComparisonSlider from './ComparisonSlider'
-import {
-  DriverLED_OFF, DriverLED_ON,
-  RelayBoard_OFF, RelayBoard_ON,
-  ESP32Shield_OFF, ESP32Shield_ON,
-} from './PCBVisualization'
+import { DriverLEDController, RelayBoardController, ESP32ShieldController } from './PCBInteractive'
 import styles from './Productos.module.css'
 
 const ArrowIcon = () => (
@@ -27,12 +22,9 @@ const products = [
       { key: 'Frecuencia',    val: '1 kHz – 20 kHz' },
       { key: 'Corriente max', val: '3 A por canal' },
       { key: 'Tensión',       val: '12 V – 48 V DC' },
-      { key: 'Interfaz',      val: 'UART / I²C / SPI' },
     ],
-    offContent: <DriverLED_OFF />,
-    onContent:  <DriverLED_ON  />,
-    topLabel:   'ENCENDIDA',
-    bottomLabel:'APAGADA',
+    Controller: DriverLEDController,
+    hint: 'Mové los sliders para activar cada canal',
   },
   {
     id: 'relay-board',
@@ -47,12 +39,9 @@ const products = [
       { key: 'Corriente max', val: '10 A por canal' },
       { key: 'Tensión carga', val: 'hasta 250 V AC' },
       { key: 'Aislación',     val: 'Óptica + galvánica' },
-      { key: 'Watchdog',      val: 'Hardware (reset auto)' },
     ],
-    offContent: <RelayBoard_OFF />,
-    onContent:  <RelayBoard_ON  />,
-    topLabel:   'ACTIVADA',
-    bottomLabel:'INACTIVA',
+    Controller: RelayBoardController,
+    hint: 'Tocá cada relé para activarlo o desactivarlo',
   },
   {
     id: 'esp32-shield',
@@ -64,20 +53,18 @@ const products = [
     specs: [
       { key: 'Base',          val: 'ESP32 / ESP32-S3' },
       { key: 'Conectividad',  val: 'WiFi + BT + CAN + RS-485' },
-      { key: 'Entradas',      val: '8 × AI protegidas 0-10V' },
-      { key: 'Salidas',       val: '4 × relé + 4 × PWM' },
+      { key: 'Entradas',      val: '4 × AI protegidas 0–10V' },
       { key: 'Alimentación',  val: '9 V – 36 V DC' },
       { key: 'Conector',      val: 'Industrial M12 A-code' },
     ],
-    offContent: <ESP32Shield_OFF />,
-    onContent:  <ESP32Shield_ON  />,
-    topLabel:   'OPERATIVA',
-    bottomLabel:'APAGADA',
+    Controller: ESP32ShieldController,
+    hint: 'Activá interfaces y simulá entradas analógicas',
   },
 ]
 
-function ProductRow({ product, index }) {
+function ProductRow({ product }) {
   const { ref, visible } = useReveal()
+  const { Controller } = product
 
   return (
     <div
@@ -89,9 +76,7 @@ function ProductRow({ product, index }) {
         <p className={styles.num}>{product.num} /</p>
         <h3 className={styles.productName}>
           {product.name.map((part, i) =>
-            i === product.nameAccent
-              ? <span key={i}>{part}</span>
-              : part
+            i === product.nameAccent ? <span key={i}>{part}</span> : part
           )}
         </h3>
         <p className={styles.tagline}>{product.tagline}</p>
@@ -122,22 +107,14 @@ function ProductRow({ product, index }) {
         </div>
       </div>
 
-      {/* VISUAL */}
+      {/* VISUAL: interactive controller */}
       <div className={styles.visual}>
-        <div className={styles.sliderWrap}>
-          <ComparisonSlider
-            topContent={product.onContent}
-            bottomContent={product.offContent}
-            topLabel={product.topLabel}
-            bottomLabel={product.bottomLabel}
-            initialPos={50}
-          />
-        </div>
+        <Controller />
         <p className={styles.sliderHint}>
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-            <path d="M12 5v14M5 12l7-7 7 7M12 19l7-7"/>
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
           </svg>
-          Arrastrá para comparar estados
+          {product.hint}
         </p>
       </div>
     </div>
@@ -157,8 +134,8 @@ export default function Productos() {
         <h2 className={styles.bigTitle} id="productos-h">PRODUCTOS</h2>
       </div>
 
-      {products.map((p, i) => (
-        <ProductRow key={p.id} product={p} index={i} />
+      {products.map(p => (
+        <ProductRow key={p.id} product={p} />
       ))}
     </section>
   )

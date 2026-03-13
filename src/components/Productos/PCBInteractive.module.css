@@ -1,0 +1,270 @@
+/* ── VIEWER WRAPPER ── */
+.viewer {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--color-light-border);
+  box-shadow: 0 12px 48px rgba(0,0,0,0.12);
+}
+
+/* ── PCB SVG AREA ── */
+.svgWrap {
+  width: 100%;
+  background: #080808;
+  aspect-ratio: 4/3;
+  display: block;
+}
+.svgWrap svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── STATS BAR ── */
+.statsBar {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  padding: 0.85rem 1.25rem;
+  background: #111;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  flex-wrap: wrap;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+}
+
+.statVal {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-cyan);
+  line-height: 1;
+}
+.statSub {
+  font-size: 0.78rem;
+  opacity: 0.45;
+  margin-left: 0.15rem;
+}
+.statLabel {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.3);
+  font-family: var(--font-heading);
+}
+
+.presets {
+  margin-left: auto;
+  display: flex;
+  gap: 0.4rem;
+}
+.presetBtn {
+  padding: 0.28rem 0.75rem;
+  border: 1px solid rgba(204,0,255,0.3);
+  border-radius: var(--radius-pill);
+  color: rgba(204,0,255,0.75);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: var(--t);
+  font-family: var(--font-heading);
+}
+.presetBtn:hover {
+  background: rgba(204,0,255,0.1);
+  border-color: var(--color-cyan);
+  color: var(--color-cyan);
+}
+
+/* ── RANGE SLIDER ── */
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 3px;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  background: linear-gradient(
+    to right,
+    var(--color-cyan) var(--p, 0%),
+    rgba(255,255,255,0.1) var(--p, 0%)
+  );
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 13px; height: 13px;
+  border-radius: 50%;
+  background: var(--color-cyan);
+  box-shadow: 0 0 8px rgba(204,0,255,0.7);
+  cursor: grab;
+  transition: transform 0.15s ease;
+}
+.slider::-webkit-slider-thumb:active { transform: scale(1.3); cursor: grabbing; }
+.slider::-moz-range-thumb {
+  width: 13px; height: 13px;
+  border-radius: 50%;
+  background: var(--color-cyan);
+  border: none;
+  cursor: grab;
+  box-shadow: 0 0 8px rgba(204,0,255,0.7);
+}
+
+/* ── CHANNEL SLOT (used in Driver + ESP32 analog) ── */
+.channelSlider {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.chHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.chName {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  font-family: var(--font-heading);
+}
+.chVal {
+  font-size: 0.62rem;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-cyan);
+}
+
+/* ── DRIVER LED: 12-channel grid ── */
+.channelGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.65rem 0.9rem;
+  padding: 1rem 1.25rem;
+  background: #111;
+}
+
+/* ── RELAY: 8-toggle grid ── */
+.relayGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  padding: 1rem 1.25rem;
+  background: #111;
+}
+.relayToggle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.6rem 0.4rem;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.02);
+  transition: var(--t);
+  font-family: var(--font-heading);
+  cursor: pointer;
+}
+.relayToggle:hover { border-color: rgba(204,0,255,0.3); }
+.relayOn {
+  border-color: rgba(204,0,255,0.6) !important;
+  background: rgba(204,0,255,0.08) !important;
+}
+.relayDot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  transition: var(--t);
+}
+.relayOn .relayDot {
+  background: var(--color-cyan);
+  border-color: var(--color-cyan);
+  box-shadow: 0 0 8px rgba(204,0,255,0.9);
+}
+.relayLabel {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.35);
+  transition: var(--t);
+}
+.relayOn .relayLabel { color: rgba(204,0,255,0.9); }
+.relayState {
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.18);
+  transition: var(--t);
+}
+.relayOn .relayState { color: var(--color-cyan); }
+
+/* ── ESP32: 2-col controls ── */
+.esp32Controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  padding: 1rem 1.25rem;
+  background: #111;
+}
+.controlLabel {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.22);
+  margin-bottom: 0.6rem;
+  font-family: var(--font-heading);
+}
+.featureToggles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.featureToggle {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.42rem 0.7rem;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.02);
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.28);
+  transition: var(--t);
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-body);
+}
+.featureToggle:hover { border-color: rgba(204,0,255,0.25); color: rgba(255,255,255,0.55); }
+.featureOn {
+  border-color: rgba(204,0,255,0.5) !important;
+  color: rgba(204,0,255,0.9) !important;
+  background: rgba(204,0,255,0.06) !important;
+}
+.featureDot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.08);
+  transition: var(--t);
+}
+.featureOn .featureDot {
+  background: var(--color-cyan);
+  box-shadow: 0 0 6px rgba(204,0,255,0.9);
+}
+.analogControls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 500px) {
+  .channelGrid { grid-template-columns: repeat(3, 1fr); }
+  .relayGrid   { grid-template-columns: repeat(4, 1fr); }
+  .esp32Controls { grid-template-columns: 1fr; }
+}
