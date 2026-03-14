@@ -3,30 +3,98 @@ import { useState, useMemo } from 'react'
 import styles from './SpectrumViewer.module.css'
 
 // ─── Constants ────────────────────────────────────────────────
-const W_MIN  = 380
-const W_MAX  = 780
+const W_MIN  = 350
+const W_MAX  = 850
 const STEP   = 2
-const N      = (W_MAX - W_MIN) / STEP + 1   // 201 sample points
+const N      = (W_MAX - W_MIN) / STEP + 1
 
 const SVG_W  = 800
 const SVG_H  = 220
-const PL     = 44   // pad left
-const PR     = 15   // pad right
-const PT     = 14   // pad top
-const PB     = 28   // pad bottom
+const PL     = 44
+const PR     = 15
+const PT     = 14
+const PB     = 28
 const CW     = SVG_W - PL - PR
 const CHSVG  = SVG_H - PT - PB
 
 // ─── Channel definitions ──────────────────────────────────────
+// sigma ≈ 6 → FWHM ≈ 14nm (máximo 15nm requerido) para todos los picos LED
+// Canal blanco modela SPD real de LED 3500K:
+//   - pump azul ~455nm (~85% del pico de fósforo)
+//   - fósforo principal ~565nm
+//   - cola roja cálida ~660nm (característica 3500K)
 const CHANNELS = [
-  { key: 'uv',   label: 'UV',         nm: '395 nm', mu: 395, sigma: 12, color: '#9D00FF', track: 'rgba(157,0,255,0.9)'   },
-  { key: 'blue', label: 'Azul',       nm: '460 nm', mu: 460, sigma: 18, color: '#0088FF', track: 'rgba(0,136,255,0.9)'   },
-  { key: 'white',label: 'Blanca',     nm: '550 nm', mu: 550, sigma: 90, color: '#EEEEEE', track: 'rgba(220,220,220,0.7)' },
-  { key: 'red',  label: 'Rojo',       nm: '660 nm', mu: 660, sigma: 16, color: '#FF2200', track: 'rgba(255,34,0,0.9)'    },
-  { key: 'ir',   label: 'Infrarrojo', nm: '740 nm', mu: 740, sigma: 12, color: '#8B1400', track: 'rgba(139,20,0,0.95)'   },
+  {
+    key: 'uv',
+    label: 'UV',
+    nm: '365/395 nm',
+    color: '#9D00FF',
+    track: 'rgba(157,0,255,0.9)',
+    dotMu: 380,
+    peaks: [
+      { mu: 365, sigma: 6, rel: 1.0 },
+      { mu: 395, sigma: 6, rel: 1.0 },
+    ]
+  },
+  {
+    key: 'blue',
+    label: 'Azul',
+    nm: '455 nm',
+    color: '#0066FF',
+    track: 'rgba(0,102,255,0.9)',
+    dotMu: 455,
+    peaks: [
+      { mu: 415, sigma: 6, rel: 0.80 },
+      { mu: 435, sigma: 6, rel: 1.0  },
+      { mu: 455, sigma: 6, rel: 1.0  },
+      { mu: 480, sigma: 6, rel: 0.93 },
+    ]
+  },
+  {
+    key: 'white',
+    label: 'Blanca',
+    nm: '3500K',
+    color: '#EEEEEE',
+    track: 'rgba(220,220,220,0.7)',
+    dotMu: 520,
+    // SPD real de LED blanco 3500K:
+    // - pump azul 455nm (contribuye ~85% del pico normalizado)
+    // - fósforo principal estrecho centrado en 565nm
+    // - cola roja cálida extendida centrada en 660nm (da el carácter 3500K)
+    peaks: [
+      { mu: 455, sigma: 12, rel: 0.93 },
+      { mu: 520, sigma:  6, rel: 1.12 },
+      { mu: 565, sigma: 45, rel: 1.0  },
+      { mu: 660, sigma: 65, rel: 0.45 },
+    ]
+  },
+  {
+    key: 'red',
+    label: 'Rojo',
+    nm: '660 nm',
+    color: '#FF2200',
+    track: 'rgba(255,34,0,0.9)',
+    dotMu: 660,
+    peaks: [
+      { mu: 635, sigma: 6, rel: 0.90 },
+      { mu: 660, sigma: 6, rel: 1.0  },
+      { mu: 680, sigma: 6, rel: 0.85 },
+    ]
+  },
+  {
+    key: 'ir',
+    label: 'Infrarrojo',
+    nm: '730 nm',
+    color: '#8B1400',
+    track: 'rgba(139,20,0,0.95)',
+    dotMu: 730,
+    peaks: [
+      { mu: 730, sigma: 8, rel: 1.0 },
+    ]
+  },
 ]
 
-// ─── Wavelength → RGB (for spectrum gradient) ─────────────────
+// ─── Wavelength → RGB ─────────────────────────────────────────
 function wlToRGB(wl) {
   if (wl < 380) return [88, 0, 255]
   if (wl < 440) { const t = (wl-380)/60;  return [Math.round(88-88*t), 0, 255] }
@@ -35,11 +103,10 @@ function wlToRGB(wl) {
   if (wl < 580) { const t = (wl-510)/70;  return [Math.round(255*t), 255, 0] }
   if (wl < 645) { const t = (wl-580)/65;  return [255, Math.round(255-255*t), 0] }
   if (wl < 700) return [255, 0, 0]
-  if (wl < 750) { const t = (wl-700)/50;  return [Math.round(255-190*t), 0, 0] }
+  if (wl < 780) { const t = (wl-700)/80;  return [Math.round(255-190*t), 0, 0] }
   return [65, 0, 0]
 }
 
-// Pre-compute gradient stops every 8 nm
 const GRAD_STOPS = []
 for (let wl = W_MIN; wl <= W_MAX; wl += 8) {
   const [r,g,b] = wlToRGB(wl)
@@ -51,21 +118,25 @@ for (let wl = W_MIN; wl <= W_MAX; wl += 8) {
 const gauss = (x, mu, sigma, amp) =>
   amp * Math.exp(-0.5 * ((x - mu) / sigma) ** 2)
 
+// ─── Compute & normalize spectrum ────────────────────────────
+// Normaliza para que el pico máximo siempre = 1.0 en el gráfico
 function computePoints(vals) {
-  const pts = []
+  const raw = new Array(N)
   for (let i = 0; i < N; i++) {
     const wl = W_MIN + i * STEP
     let y = 0
     CHANNELS.forEach(ch => {
       const v = vals[ch.key] / 100
       if (v > 0) {
-        const amp = ch.key === 'white' ? v * 0.58 : v
-        y += gauss(wl, ch.mu, ch.sigma, amp)
+        ch.peaks.forEach(pk => {
+          y += gauss(wl, pk.mu, pk.sigma, v * pk.rel)
+        })
       }
     })
-    pts.push(Math.min(y, 1.15))
+    raw[i] = y
   }
-  return pts
+  const maxVal = Math.max(...raw, 0.001)
+  return { pts: raw.map(y => Math.min(y / maxVal, 1.0)), maxVal }
 }
 
 function toAreaPath(pts) {
@@ -81,10 +152,10 @@ function toAreaPath(pts) {
 
 // ─── SVG ──────────────────────────────────────────────────────
 function SpectrumSVG({ values }) {
-  const pts      = useMemo(() => computePoints(values), [values])
-  const areaPath = useMemo(() => toAreaPath(pts), [pts])
+  const { pts, maxVal } = useMemo(() => computePoints(values), [values])
+  const areaPath        = useMemo(() => toAreaPath(pts), [pts])
 
-  const gridWls = [400, 430, 480, 530, 580, 630, 680, 730, 780]
+  const gridWls = [350, 406, 462, 518, 575, 631, 687, 743, 800, 850]
 
   return (
     <svg
@@ -99,13 +170,11 @@ function SpectrumSVG({ values }) {
           ))}
         </linearGradient>
 
-        {/* Soft glow — wide blur for outer halo */}
         <filter id="sv-glow-halo" x="-20%" y="-40%" width="140%" height="180%">
           <feGaussianBlur stdDeviation="10" result="blur"/>
           <feMerge><feMergeNode in="blur"/></feMerge>
         </filter>
 
-        {/* Crisp glow on top of fill */}
         <filter id="sv-glow-crisp" x="-5%" y="-20%" width="110%" height="140%">
           <feGaussianBlur stdDeviation="4" result="blur"/>
           <feMerge>
@@ -114,7 +183,6 @@ function SpectrumSVG({ values }) {
           </feMerge>
         </filter>
 
-        {/* Clip to chart area */}
         <clipPath id="sv-clip">
           <rect x={PL} y={PT} width={CW} height={CHSVG}/>
         </clipPath>
@@ -137,7 +205,7 @@ function SpectrumSVG({ values }) {
         )
       })}
 
-      {/* Horizontal grid + Y axis labels */}
+      {/* Horizontal grid + Y labels */}
       {[0.25, 0.5, 0.75, 1.0].map(v => {
         const y = (PT + CHSVG - v * CHSVG).toFixed(1)
         return (
@@ -151,13 +219,13 @@ function SpectrumSVG({ values }) {
         )
       })}
 
-      {/* Halo glow layer */}
+      {/* Halo glow */}
       <g clipPath="url(#sv-clip)">
         <path d={areaPath} fill="url(#sv-wl-grad)"
           filter="url(#sv-glow-halo)" opacity="0.45"/>
       </g>
 
-      {/* Main spectrum fill with crisp glow */}
+      {/* Main fill */}
       <g clipPath="url(#sv-clip)">
         <path d={areaPath} fill="url(#sv-wl-grad)"
           filter="url(#sv-glow-crisp)" opacity="0.88"/>
@@ -167,13 +235,15 @@ function SpectrumSVG({ values }) {
       <line x1={PL} y1={PT + CHSVG} x2={PL + CW} y2={PT + CHSVG}
         stroke="rgba(255,255,255,0.12)" strokeWidth="1"/>
 
-      {/* Channel peak dots */}
+      {/* Channel peak dots (posición normalizada) */}
       {CHANNELS.map(ch => {
         const v = values[ch.key]
         if (v < 4) return null
-        const amp  = ch.key === 'white' ? (v/100)*0.58 : v/100
-        const xPos = PL + ((ch.mu - W_MIN) / (W_MAX - W_MIN)) * CW
-        const yPos = PT + CHSVG - Math.min(amp, 1.15) * CHSVG
+        const maxRel  = Math.max(...ch.peaks.map(p => p.rel))
+        const dotPeak = ch.peaks.find(p => p.rel === maxRel)
+        const amp     = ((v / 100) * maxRel) / maxVal
+        const xPos    = PL + ((dotPeak.mu - W_MIN) / (W_MAX - W_MIN)) * CW
+        const yPos    = PT + CHSVG - Math.min(amp, 1.0) * CHSVG
         return (
           <g key={ch.key}>
             <circle cx={xPos} cy={yPos} r="4" fill={ch.color} opacity="0.95"/>
@@ -192,11 +262,14 @@ function SpectrumSVG({ values }) {
 }
 
 // ─── Presets ──────────────────────────────────────────────────
+// Floración: rojo 660nm = pico máximo del espectro
+// Azul 455nm ≈ 5% menor que rojo (tras normalización)
+// UV ≈ 50% del pico azul
 const PRESETS = [
-  { label: 'OFF',        vals: { uv:0,  blue:0,  white:0,  red:0,   ir:0  } },
-  { label: 'Vegetativo', vals: { uv:20, blue:80, white:70, red:30,  ir:10 } },
-  { label: 'Floración',  vals: { uv:15, blue:30, white:50, red:100, ir:70 } },
-  { label: 'Full',       vals: { uv:70, blue:90, white:80, red:90,  ir:60 } },
+  { label: 'OFF',        vals: { uv: 0,  blue: 0,   white: 0,  red: 0,   ir: 0  } },
+  { label: 'Vegetativo', vals: { uv: 30, blue: 100, white: 70, red: 35,  ir: 10 } },
+  { label: 'Floración',  vals: { uv: 48, blue: 93,  white: 45, red: 100, ir: 35 } },
+  { label: 'Full',       vals: { uv: 65, blue: 93,  white: 75, red: 100, ir: 55 } },
 ]
 
 const ZERO = { uv: 0, blue: 0, white: 0, red: 0, ir: 0 }
@@ -211,17 +284,15 @@ export function SpectrumViewer({ initialValues = ZERO }) {
   )
   const activeCount = Object.values(values).filter(v => v > 0).length
 
-  const set     = (key, v)  => setValues(prev => ({ ...prev, [key]: +v }))
-  const applyPreset = vals  => setValues({ ...ZERO, ...vals })
+  const set         = (key, v) => setValues(prev => ({ ...prev, [key]: +v }))
+  const applyPreset = vals     => setValues({ ...ZERO, ...vals })
 
   return (
     <div className={styles.viewer}>
-      {/* Spectrum graph */}
       <div className={styles.graphWrap}>
         <SpectrumSVG values={values} />
       </div>
 
-      {/* Stats bar */}
       <div className={styles.statsBar}>
         <div className={styles.stat}>
           <span className={styles.statVal}>
@@ -248,7 +319,6 @@ export function SpectrumViewer({ initialValues = ZERO }) {
         </div>
       </div>
 
-      {/* Channel sliders */}
       <div className={styles.sliderPanel}>
         {CHANNELS.map(ch => (
           <div key={ch.key} className={styles.channelRow}>
