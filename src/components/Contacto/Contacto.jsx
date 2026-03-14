@@ -1,3 +1,4 @@
+'use client'
 import { useState } from 'react'
 import { useReveal } from '../../hooks/useReveal'
 import styles from './Contacto.module.css'
@@ -59,10 +60,20 @@ export default function Contacto() {
     const errs = validate()
     if (Object.keys(errs).length) { setErrors(errs); return }
     setStatus('loading')
-    await new Promise(r => setTimeout(r, 1500))
-    setStatus('success')
-    setForm(INIT)
-    setTimeout(() => setStatus('idle'), 5000)
+    try {
+      const res = await fetch('/api/contacto', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      if (!res.ok) throw new Error()
+      setStatus('success')
+      setForm(INIT)
+      setTimeout(() => setStatus('idle'), 5000)
+    } catch {
+      setStatus('error')
+      setTimeout(() => setStatus('idle'), 4000)
+    }
   }
 
   return (
@@ -145,6 +156,7 @@ export default function Contacto() {
               {status === 'idle'    && <><SendIcon />  Enviar mensaje</>}
               {status === 'loading' && <><div className={styles.spinner}/> Enviando...</>}
               {status === 'success' && <><CheckIcon /> Mensaje enviado</>}
+              {status === 'error'   && <>✕ Error al enviar — intentá de nuevo</>}
             </button>
           </form>
         </div>

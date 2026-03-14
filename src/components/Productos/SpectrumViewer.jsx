@@ -1,3 +1,4 @@
+'use client'
 import { useState, useMemo } from 'react'
 import styles from './SpectrumViewer.module.css'
 

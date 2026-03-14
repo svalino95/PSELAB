@@ -1,3 +1,4 @@
+'use client'
 import { useReveal } from '../../hooks/useReveal'
 import styles from './Proyectos.module.css'
 

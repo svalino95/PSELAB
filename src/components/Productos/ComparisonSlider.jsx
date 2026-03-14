@@ -1,3 +1,4 @@
+'use client'
 import { useState, useRef, useCallback, useEffect } from 'react'
 import styles from './ComparisonSlider.module.css'
 

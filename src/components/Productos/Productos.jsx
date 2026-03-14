@@ -1,3 +1,4 @@
+'use client'
 import { useReveal } from '../../hooks/useReveal'
 import { SpectrumViewer } from './SpectrumViewer'
 import styles from './Productos.module.css'

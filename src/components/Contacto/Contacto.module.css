@@ -146,6 +146,8 @@
 
 .errMsg { font-size: 0.72rem; color: #F87171; }
 
+@keyframes spin { to { transform: rotate(360deg); } }
+
 .spinner {
   width: 15px; height: 15px;
   border: 2px solid rgba(0,0,0,0.2);

@@ -1,3 +1,13 @@
+/* ── KEYFRAMES (local copy needed for CSS Modules scope) ── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
 /* ── HERO WRAPPER ── */
 .hero {
   background: var(--color-light);
